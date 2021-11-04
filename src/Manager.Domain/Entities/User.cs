@@ -1,4 +1,5 @@
-﻿using Manager.Domain.Validators;
+﻿using Manager.Core.Exceptions;
+using Manager.Domain.Validators;
 using System;
 using System.Collections.Generic;
 
@@ -54,7 +55,7 @@ namespace Manager.Domain.Entities
                 foreach (var error in validation.Errors)
                     _errors.Add(error.ErrorMessage);
 
-                throw new Exception("Invalid fields." + _errors[0]);
+                throw new DomainException("Invalid fields.", _errors);
             }
 
             return true;
