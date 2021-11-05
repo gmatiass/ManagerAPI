@@ -13,7 +13,7 @@ namespace Manager.Domain.Entities
         public string Password { get; private set; }
 
         //EF
-        protected User() { }
+        protected User(){}
 
         public User(string name, string email, string password)
         {
