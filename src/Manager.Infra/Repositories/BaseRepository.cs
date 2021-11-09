@@ -33,7 +33,7 @@ namespace Manager.Infra.Repositories
             return obj;
         }
 
-        public virtual async Task Remove (long id)
+        public virtual async Task<T> Remove (long id)
         {
             var obj = await Get(id);
 
@@ -42,6 +42,8 @@ namespace Manager.Infra.Repositories
                 _context.Remove(obj);
                 await _context.SaveChangesAsync();
             }
+
+            return obj;
         }
 
         public virtual async Task<T> Get(long id)

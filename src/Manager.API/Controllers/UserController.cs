@@ -75,5 +75,155 @@ namespace Manager.API.Controllers
                 return StatusCode(500, ex);
             }
         }
+
+        [HttpDelete]
+        [Route("/api/v1/users/remove/{id}")]
+        public async Task<IActionResult> Delete(long id)
+        {
+            try
+            {
+                await _userService.Remove(id);
+
+                return Ok(new ResultViewModel
+                {
+                    Message = "User removed successfully.",
+                    Success = true,
+                    Data = null
+                });
+            }
+            catch(DomainException ex)
+            {
+                return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        [Route("/api/v1/users/get/{id}")]
+        public async Task<IActionResult> Get(long id)
+        {
+            try
+            {
+                var user = await _userService.Get(id);
+
+                return Ok(new ResultViewModel
+                {
+                    Message = "User found.",
+                    Success = true,
+                    Data = user
+                }); 
+            }
+            catch(DomainException ex)
+            {
+                return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        [Route("/api/v1/users/get-all")]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                var users = await _userService.Get();
+
+                return Ok(new ResultViewModel
+                {
+                    Message = "Users found.",
+                    Success = true,
+                    Data = users
+                });
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        [Route("/api/v1/users/get-by-email")]
+        public async Task<IActionResult> GetByEmail([FromQuery] string email)
+        {
+            try
+            {
+                var user = await _userService.GetByEmail(email);
+
+                return Ok(new ResultViewModel
+                {
+                    Message = "User found.",
+                    Success = true,
+                    Data = user
+                });
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        [Route("/api/v1/users/search-by-email")]
+        public async Task<IActionResult> SearchByEmail([FromQuery] string email)
+        {
+            try
+            {
+                var users = await _userService.SearchByEmail(email);
+
+                return Ok(new ResultViewModel
+                {
+                    Message = $"Users with this in email: {email}.",
+                    Success = true,
+                    Data = users
+                });
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
+        }
+
+        [HttpGet]
+        [Route("/api/v1/users/search-by-name")]
+        public async Task<IActionResult> SearchByName([FromQuery] string name)
+        {
+            try
+            {
+                var users = await _userService.SearchByName(name);
+
+                return Ok(new ResultViewModel
+                {
+                    Message = $"Users with this in name: {name}.",
+                    Success = true,
+                    Data = users
+                });
+            }
+            catch (DomainException ex)
+            {
+                return BadRequest(Responses.DomainErrorMessage(ex.Message, ex.Errors));
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, Responses.ApplicationErrorMessage());
+            }
+        }
     }
 }
