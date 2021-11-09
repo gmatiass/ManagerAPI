@@ -4,10 +4,7 @@ using Manager.Domain.Entities;
 using Manager.Infra.Interfaces;
 using Manager.Services.DTO;
 using Manager.Services.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Manager.Services.Services
