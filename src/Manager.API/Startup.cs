@@ -1,4 +1,5 @@
 using AutoMapper;
+using Manager.API.Utilities.Token;
 using Manager.API.ViewModels;
 using Manager.Domain.Entities;
 using Manager.Infra.Context;
@@ -7,13 +8,16 @@ using Manager.Infra.Repositories;
 using Manager.Services.DTO;
 using Manager.Services.Interfaces;
 using Manager.Services.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 namespace Manager.API
 {
@@ -54,8 +58,33 @@ namespace Manager.API
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ITokenGenerator, TokenGenerator>();
 
             #endregion DependencyInjection
+
+            #region Jwt
+
+            var secretKey = Configuration["Jwt:Key"];
+
+            services.AddAuthentication(auth =>
+            {
+                auth.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                auth.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(auth =>
+                {
+                    auth.RequireHttpsMetadata = false;
+                    auth.SaveToken = true;
+                    auth.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
+            #endregion Jwt
 
             services.AddSwaggerGen(c =>
             {
@@ -76,6 +105,8 @@ namespace Manager.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

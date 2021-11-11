@@ -4,10 +4,9 @@ using Manager.API.ViewModels;
 using Manager.Core.Exceptions;
 using Manager.Services.DTO;
 using Manager.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Manager.API.Controllers
@@ -51,6 +50,7 @@ namespace Manager.API.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [Route("/api/v1/users/update")]
         public async Task<IActionResult> Update([FromBody] UpdateUserViewModel userViewModel)
         {
