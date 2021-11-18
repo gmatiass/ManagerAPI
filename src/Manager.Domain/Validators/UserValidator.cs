@@ -53,8 +53,16 @@ namespace Manager.Domain.Validators
                 .MinimumLength(6)
                 .WithMessage("Password should have at least 6 characters.")
 
-                .MaximumLength(30)
+                .MaximumLength(300)
                 .WithMessage("Password must have a maximum of 30 characters.");
+
+            //RuleFor(x => x.PasswordSalt)
+            //    .NotEmpty()
+            //    .WithMessage("PasswordSalt should not be empty.")
+
+            //    .NotNull()
+            //    .WithMessage("PasswordSalt should not be null.");
+
         }
     }
 }

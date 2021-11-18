@@ -10,6 +10,7 @@ namespace Manager.Domain.Entities
         public string Name { get; private set; }
         public string Email { get; private set; }
         public string Password { get; private set; }
+        public string PasswordSalt { get; private set; }
 
         //EF
         protected User(){}
@@ -19,6 +20,7 @@ namespace Manager.Domain.Entities
             Name = name;
             Email = email;
             Password = password;
+            PasswordSalt = null;
             _errors = new List<string>();
 
             Validate();
@@ -40,6 +42,11 @@ namespace Manager.Domain.Entities
         public void ChangeEmail(string email)
         {
             Email = email;
+            Validate();
+        }
+        public void ChangePasswordSalt(string passwordSalt)
+        {
+            PasswordSalt = passwordSalt;
             Validate();
         }
 

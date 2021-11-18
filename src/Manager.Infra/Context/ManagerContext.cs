@@ -15,7 +15,7 @@ namespace Manager.Infra.Context
         //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         //{
         //    const string connectionString = "Server=localhost; Database=managerapi; Uid=dev; Pwd=1234567";
-        //    
+
         //    optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
         //}
 

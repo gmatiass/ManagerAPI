@@ -31,9 +31,14 @@ namespace Manager.Infra.Mappings
 
             builder.Property(user => user.Password)
                 .IsRequired()
-                .HasMaxLength(30)
+                .HasMaxLength(300)
                 .HasColumnName("password")
-                .HasColumnType("VARCHAR(30)");
+                .HasColumnType("VARCHAR(300)");
+
+            builder.Property(user => user.PasswordSalt)
+                //.IsRequired()
+                .HasColumnName("passwordSalt")
+                .HasColumnType("VARCHAR(200)");
 
         }
     }

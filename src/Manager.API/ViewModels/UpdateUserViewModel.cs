@@ -27,6 +27,7 @@ namespace Manager.API.ViewModels
         [Required(ErrorMessage = "Password should not be empty.")]
         [MinLength(6, ErrorMessage = "Password should have at least 6 characters.")]
         [MaxLength(30, ErrorMessage = "Password must have a maximum of 30 characters.")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
     }
 }

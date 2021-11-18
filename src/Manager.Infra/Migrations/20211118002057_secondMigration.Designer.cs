@@ -3,14 +3,16 @@ using Manager.Infra.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Manager.Infra.Migrations
 {
     [DbContext(typeof(ManagerContext))]
-    partial class ManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20211118002057_secondMigration")]
+    partial class secondMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,11 +40,12 @@ namespace Manager.Infra.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("VARCHAR(300)")
+                        .HasMaxLength(30)
+                        .HasColumnType("VARCHAR(30)")
                         .HasColumnName("password");
 
                     b.Property<string>("PasswordSalt")
+                        .IsRequired()
                         .HasColumnType("VARCHAR(200)")
                         .HasColumnName("passwordSalt");
 

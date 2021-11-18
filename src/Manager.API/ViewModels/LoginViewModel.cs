@@ -8,6 +8,7 @@ namespace Manager.API.ViewModels
         public string Login { get; set; }
 
         [Required(ErrorMessage = "Password should not be empty.")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
     }

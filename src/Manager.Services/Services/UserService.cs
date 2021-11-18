@@ -6,6 +6,8 @@ using Manager.Services.DTO;
 using Manager.Services.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Manager.Services.Providers.Hash;
+using System;
 
 namespace Manager.Services.Services
 {
@@ -13,11 +15,13 @@ namespace Manager.Services.Services
     {
         private readonly IMapper _mapper;
         private readonly IUserRepository _userRepository;
+        private readonly IHashProvider _hashProvider;
 
-        public UserService(IMapper mapper, IUserRepository userRepository)
+        public UserService(IMapper mapper, IUserRepository userRepository, IHashProvider hashProvider)
         {
             _mapper = mapper;
             _userRepository = userRepository;
+            _hashProvider = hashProvider;
         }
 
         public async Task<UserDTO> Create(UserDTO userDTO)
@@ -30,6 +34,11 @@ namespace Manager.Services.Services
             var user = _mapper.Map<User>(userDTO);
             user.Validate();
 
+            var payload = _hashProvider.GenerateHash(user.Password);
+
+            user.ChangePassword(payload.Hash);
+            user.ChangePasswordSalt(payload.Salt);
+            
             var userCreated = await _userRepository.Create(user);
 
             return _mapper.Map<UserDTO>(userCreated);
