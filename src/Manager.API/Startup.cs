@@ -1,5 +1,4 @@
 using AutoMapper;
-using Manager.API.Utilities.Token;
 using Manager.API.ViewModels;
 using Manager.Domain.Entities;
 using Manager.Infra.Context;
@@ -19,6 +18,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Manager.Services.Providers.Token;
 
 namespace Manager.API
 {
@@ -54,11 +54,18 @@ namespace Manager.API
 
             services.AddSingleton(d => Configuration);
 
+            //Db
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ManagerContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)), ServiceLifetime.Transient);
 
+            //Services
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
+
+            //Repositories
             services.AddScoped<IUserRepository, UserRepository>();
+
+            //Providers
             services.AddScoped<ITokenGenerator, TokenGenerator>();
             services.AddScoped<IHashProvider, HashProvider>();
 

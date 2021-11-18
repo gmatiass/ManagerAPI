@@ -16,19 +16,19 @@ namespace Manager.Services.Providers.Hash
             _iterations = 100000;
         }
 
-        public PayloadViewModel GenerateHash(string payload)
+        public PayloadModel GenerateHash(string payload)
         {
             byte[] salt = GenerateSalt();
             string hashedPassword = Hash(payload, salt);
 
-            return new PayloadViewModel
+            return new PayloadModel
             {
                 Salt = Convert.ToBase64String(salt),
                 Hash = hashedPassword
             };
         }
 
-        public bool VerifyHash(PayloadViewModel payload, string password)
+        public bool VerifyHash(PayloadModel payload, string password)
         {
             byte[] salt = Convert.FromBase64String(payload.Salt);
 

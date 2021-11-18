@@ -1,11 +1,10 @@
 ﻿using Manager.API.Utilities;
-using Manager.API.Utilities.Token;
 using Manager.API.ViewModels;
+using Manager.Core.Exceptions;
+using Manager.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Manager.API.Controllers
@@ -13,42 +12,31 @@ namespace Manager.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly IConfiguration _configuration;
-        private readonly ITokenGenerator _tokenGenerator;
+        private readonly IAuthService _authService;
 
-        public AuthController(IConfiguration configuration, ITokenGenerator tokenGenerator)
+        public AuthController(IAuthService authService)
         {
-            _configuration = configuration;
-            _tokenGenerator = tokenGenerator;
+            _authService = authService;
         }
 
         [HttpPost]
         [Route("/api/v1/auth/login")]
-        public IActionResult Login ([FromBody] LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login ([FromBody] LoginViewModel loginViewModel)
         {
             try
             {
-                var tokenLogin = _configuration["Jwt:Login"];
-                var tokenPassword = _configuration["Jwt:Password"];
+                var authenticated = await _authService.CreateSession(loginViewModel.Login, loginViewModel.Password);
 
-                if(loginViewModel.Login == tokenLogin && loginViewModel.Password == tokenPassword)
+                return Ok(new ResultViewModel
                 {
-                    return Ok(new ResultViewModel
-                    {
-                        Message = "Login successfully.",
-                        Success = true,
-                        Data = new
-                        {
-                            Token = _tokenGenerator.GenerateToken(),
-                            TokenExpires = DateTime.UtcNow.AddHours(int.Parse(_configuration["Jwt:HoursToExpire"]))
-                        }
-                    });
-                }
-                else
-                {
-                    return StatusCode(401, Responses.UnauthorizedErrorMessage());
-                }
-
+                    Message = "Login successfully.",
+                    Success = true,
+                    Data = authenticated
+                });
+            }        
+            catch(DomainException)
+            {
+                return StatusCode(401, Responses.UnauthorizedErrorMessage());
             }
             catch (Exception)
             {

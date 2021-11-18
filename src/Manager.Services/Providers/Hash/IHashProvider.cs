@@ -4,7 +4,7 @@ namespace Manager.Services.Interfaces
 {
     public interface IHashProvider
     {
-        PayloadViewModel GenerateHash(string payload);
-        bool VerifyHash(PayloadViewModel payload, string hashed);
+        PayloadModel GenerateHash(string payload);
+        bool VerifyHash(PayloadModel payload, string hashed);
     }
 }

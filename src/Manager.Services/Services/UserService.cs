@@ -6,8 +6,6 @@ using Manager.Services.DTO;
 using Manager.Services.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Manager.Services.Providers.Hash;
-using System;
 
 namespace Manager.Services.Services
 {
