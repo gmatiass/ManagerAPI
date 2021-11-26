@@ -9,12 +9,12 @@ namespace Manager.Services.Providers.Hash
 {
     public class HashProvider : IHashProvider
     {
-        private readonly int _iterations;
+        private readonly int _iterations = 100000;
         
-        public HashProvider()
-        {
-            _iterations = 100000;
-        }
+        //public HashProvider()
+        //{
+        //    _iterations = 100000;
+        //}
 
         public PayloadModel GenerateHash(string payload)
         {
@@ -34,7 +34,7 @@ namespace Manager.Services.Providers.Hash
 
             string hashedPassword = Hash(password, salt);
 
-            return (payload.Hash == hashedPassword);            
+            return payload.Hash == hashedPassword;
         }
 
         private static byte[] GenerateSalt()
