@@ -1,4 +1,6 @@
-# ManagerAPI
+<h1 align="center">
+  ManagerAPI
+</h1>
 
 ## Quick start
 
@@ -12,11 +14,11 @@ dotnet run
 
 ## 💻 Technologies
 
-- AspNetCore
-- EntityFrameworkCore
-- FluentValidation
-- AutoMapper
-- xunit
+- <a href="https://docs.microsoft.com/pt-br/aspnet/core/?view=aspnetcore-6.0">AspNetCore</a>
+- <a href="https://docs.microsoft.com/pt-br/ef/core/">EntityFrameworkCore</a>
+- <a href="https://fluentvalidation.net">FluentValidation</a>
+- <a href="https://automapper.org">AutoMapper</a>
+- <a href="https://xunit.net">xUnit</a>
 
 ## License
 
