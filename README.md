@@ -10,8 +10,6 @@ Run project in development mode:
 dotnet run
 ```
 
----
-
 ## 💻 Technologies
 
 - AspNetCore
@@ -19,8 +17,6 @@ dotnet run
 - FluentValidation
 - AutoMapper
 - xunit
-
----
 
 ## License
 
