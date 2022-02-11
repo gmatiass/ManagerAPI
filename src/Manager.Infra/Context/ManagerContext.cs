@@ -12,13 +12,6 @@ namespace Manager.Infra.Context
 
         public virtual DbSet<User> Users { get; set; }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    const string connectionString = "Server=localhost; Database=managerapi; Uid=dev; Pwd=1234567";
-
-        //    optionsBuilder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-        //}
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.ApplyConfiguration(new UserMap());

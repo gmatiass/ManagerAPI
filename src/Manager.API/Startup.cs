@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Manager.Services.Providers.Token;
+using Microsoft.Extensions.Logging;
 
 namespace Manager.API
 {
@@ -55,9 +56,13 @@ namespace Manager.API
             services.AddSingleton(d => Configuration);
 
             //Db
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ManagerContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)), ServiceLifetime.Transient);
-
+            //string connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //services.AddDbContext<ManagerContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)), ServiceLifetime.Transient);
+            services.AddDbContext<ManagerContext>(options => options
+                .UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"])
+                .EnableSensitiveDataLogging()
+                .UseLoggerFactory(LoggerFactory.Create(builder => builder.AddConsole())), ServiceLifetime.Transient);
+            
             //Services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
@@ -131,12 +136,9 @@ namespace Manager.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Manager.API v1"));
-            }
+            app.UseDeveloperExceptionPage();
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Manager.API v1"));
 
             app.UseHttpsRedirection();
 

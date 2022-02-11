@@ -14,7 +14,7 @@ namespace Manager.Infra.Mappings
             builder.HasKey(user => user.Id);
 
             builder.Property(user => user.Id)
-                .UseMySqlIdentityColumn()
+                .UseIdentityColumn()
                 .HasColumnType("BIGINT");
 
             builder.Property(user => user.Name)

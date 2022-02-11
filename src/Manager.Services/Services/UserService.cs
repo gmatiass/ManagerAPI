@@ -45,6 +45,7 @@ namespace Manager.Services.Services
 
         public async Task<UserDTO> Update(UserDTO userDTO) 
         {
+            //REFACTOR: Refatorar para confirmação de password.
             var userExists = await _userRepository.Get(userDTO.Id);
             
             if (userExists == null)
@@ -57,6 +58,11 @@ namespace Manager.Services.Services
 
             var user = _mapper.Map<User>(userDTO);
             user.Validate();
+
+            var payload = _hashProvider.GenerateHash(user.Password);
+
+            user.ChangePassword(payload.Hash);
+            user.ChangePasswordSalt(payload.Salt);
 
             var userUpdated = await _userRepository.Update(user);
 

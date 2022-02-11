@@ -14,10 +14,12 @@ namespace Manager.Tests.Fixtures
     {
         public static User CreateValidUser()
         {
-            return new User(
+            return new User
+            (
                 name: new Name().FirstName(),
                 email: new Internet().Email(),
-                password: new Internet().Password());
+                password: new Internet().Password()
+            );
         }
 
         public static List<User> CreateListValidUser(int length = 5)
@@ -34,11 +36,25 @@ namespace Manager.Tests.Fixtures
 
         public static UserDTO CreateValidUserDTO(bool idFlag = false)
         {
-            return new UserDTO(
-                id: idFlag ? new Randomizer().Int(0, 1000) : 0,
-                name: new Name().FirstName(),
-                email: new Internet().Email(),
-                password: new Internet().Password());
+            return new UserDTO
+            {
+                Id = idFlag ? new Randomizer().Int(0, 1000) : 0,
+                Name = new Name().FirstName(),
+                Email = new Internet().Email(),
+                Password = new Internet().Password()
+            };
+                
+        }
+
+        public static UserDTO CreateInvalidUserDTO()
+        {
+            return new UserDTO
+            {
+                Id = 0,
+                Name = "",
+                Email = "",
+                Password = ""
+            };
         }
     }
 }
